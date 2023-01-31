@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-wo
+  namespace: pod-wo
+spec:
+  containers:
+    - name: pod-safe
+      image: docker.io/kennethreitz/httpbin

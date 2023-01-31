@@ -4,11 +4,11 @@
 
 > It is now a requirement for clusters to run Kubernetes >=1.19.
 
-
-# kubeaudit :cloud: :lock: :muscle:
+# kubeaudit :cloud: :lock: :muscle
 
 `kubeaudit` is a command line tool and a Go package to audit Kubernetes clusters for various
 different security concerns, such as:
+
 * run as non-root
 * use a read-only root filesystem
 * drop scary capabilities, don't add new ones
@@ -18,6 +18,7 @@ different security concerns, such as:
 **tldr. `kubeaudit` makes sure you deploy secure containers!**
 
 ## Package
+
 To use kubeaudit as a Go package, see the [package docs](https://pkg.go.dev/github.com/Shopify/kubeaudit).
 
 The rest of this README will focus on how to use kubeaudit as a command line tool.
@@ -63,11 +64,11 @@ Prerequisite: kubectl v1.12.0 or later
 
 With kubectl v1.12.0 introducing [easy pluggability](https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/) of external functions, kubeaudit can be invoked as `kubectl audit` by
 
-- running `make plugin` and having `$GOPATH/bin` available in your path.
+* running `make plugin` and having `$GOPATH/bin` available in your path.
 
 or
 
-- renaming the binary to `kubectl-audit` and having it available in your path.
+* renaming the binary to `kubectl-audit` and having it available in your path.
 
 ### Docker
 
@@ -86,11 +87,13 @@ kubeaudit has three modes:
 If a Kubernetes manifest file is provided using the `-f/--manifest` flag, kubeaudit will audit the manifest file.
 
 Example command:
+
 ```
 kubeaudit all -f "/path/to/manifest.yml"
 ```
 
 Example output:
+
 ```
 $ kubeaudit all -f "internal/test/fixtures/all_resources/deployment-apps-v1.yml"
 
@@ -150,6 +153,7 @@ kubeaudit autofix -k "/path/to/kubeaudit-config.yml" -f "/path/to/manifest.yml" 
 ### Cluster Mode
 
 Kubeaudit can detect if it is running within a container in a cluster. If so, it will try to audit all Kubernetes resources in that cluster:
+
 ```
 kubeaudit all
 ```
@@ -157,25 +161,27 @@ kubeaudit all
 ### Local Mode
 
 Kubeaudit will try to connect to a cluster using the local kubeconfig file (`$HOME/.kube/config`). A different kubeconfig location can be specified using the `--kubeconfig` flag. To specify a context of the kubeconfig, use the `-c/--context` flag.
+
 ```
 kubeaudit all --kubeconfig "/path/to/config" --context my_cluster
 ```
 
-For more information on kubernetes config files, see https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
+For more information on kubernetes config files, see <https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/>
 
 ## Audit Results
 
 Kubeaudit produces results with three levels of severity:
 
-- `Error`: A security issue or invalid kubernetes configuration
-- `Warning`: A best practice recommendation
-- `Info`: Informational, no action required. This includes results that are [overridden](#override-errors)
+* `Error`: A security issue or invalid kubernetes configuration
+* `Warning`: A best practice recommendation
+* `Info`: Informational, no action required. This includes results that are [overridden](#override-errors)
 
 The minimum severity level can be set using the `--minSeverity/-m` flag.
 
 By default kubeaudit will output results in a human-readable way. If the output is intended to be further processed, it can be set to output JSON using the `--format json` flag. To output results as logs (the previous default) use `--format logrus`. Some output formats include colors to make results easier to read in a terminal. To disable colors (for example, if you are sending output to a text file), you can use the `--no-color` flag.
 
 You can generate a kubeaudit report in [SARIF](https://docs.oasis-open.org/sarif/sarif/v2.0/sarif-v2.0.html) using the `--format sarif` flag. To write the SARIF results to a file, you can redirect the output with `>`. For example:
+
 ```
 kubeaudit all -f path-to-my-file.yaml --format="sarif" > example.sarif
 ```
@@ -197,7 +203,7 @@ For all the ways kubeaudit can be customized, see [Global Flags](#global-flags).
 Auditors can also be run individually.
 
 | Command          | Description                                                                                                    | Documentation                           |
-| :--------------- | :------------------------------------------------------------------------------------------------------------- | :-------------------------------------- |
+|:---------------- |:-------------------------------------------------------------------------------------------------------------- |:--------------------------------------- |
 | `apparmor`       | Finds containers running without AppArmor.                                                                     | [docs](docs/auditors/apparmor.md)       |
 | `asat`           | Finds pods using an automatically mounted default service account                                              | [docs](docs/auditors/asat.md)           |
 | `capabilities`   | Finds containers that do not drop the recommended capabilities or add new ones.                                | [docs](docs/auditors/capabilities.md)   |
@@ -212,6 +218,7 @@ Auditors can also be run individually.
 | `privileged`     | Finds containers running as privileged.                                                                        | [docs](docs/auditors/privileged.md)     |
 | `rootfs`         | Finds containers which do not have a read-only filesystem.                                                     | [docs](docs/auditors/rootfs.md)         |
 | `seccomp`        | Finds containers running without Seccomp.                                                                      | [docs](docs/auditors/seccomp.md)        |
+| `sysctls`        | Finds unsafe sysctls.                                                                                          | [docs](docs/auditors/sysctls.md)        |
 
 ### Global Flags
 
@@ -328,7 +335,7 @@ Multiple override labels (for multiple auditors) can be added to the same resour
 
 See the specific [auditor docs](#auditors) for the auditor you wish to override for examples.
 
-To learn more about labels, see https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+To learn more about labels, see <https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/>
 
 ## Contributing
 

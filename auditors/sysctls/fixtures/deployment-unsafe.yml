@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depl-unsafe
+  namespace: deployment-unsafe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: httpbin
+        version: v1
+    spec:
+      securityContext:
+        sysctls:
+          - name: kernel.shm_rmid_forced
+            value: '1'
+          - name: net.core.somaxconn
+            value: '1024'
+          - name: kernel.msgmax
+            value: '65536'
+      containers:
+        - image: docker.io/kennethreitz/httpbin
+          imagePullPolicy: IfNotPresent
+          name: httpbin
+          ports:
+            - containerPort: 80
