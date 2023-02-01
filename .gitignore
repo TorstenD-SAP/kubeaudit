@@ -11,4 +11,3 @@ coverage.txt
 /.vscode
 .go-version
 profile.out
-auditors/seccomp/__debug_bin
