@@ -19,6 +19,7 @@ import (
 	"github.com/Shopify/kubeaudit/auditors/privileged"
 	"github.com/Shopify/kubeaudit/auditors/rootfs"
 	"github.com/Shopify/kubeaudit/auditors/seccomp"
+	"github.com/Shopify/kubeaudit/auditors/sysctls"
 	"github.com/Shopify/kubeaudit/config"
 )
 
@@ -39,6 +40,7 @@ var AuditorNames = []string{
 	privileged.Name,
 	rootfs.Name,
 	seccomp.Name,
+	sysctls.Name,
 }
 
 func Auditors(conf config.KubeauditConfig) ([]kubeaudit.Auditable, error) {
@@ -97,6 +99,8 @@ func initAuditor(name string, conf config.KubeauditConfig) (kubeaudit.Auditable,
 		return rootfs.New(), nil
 	case seccomp.Name:
 		return seccomp.New(), nil
+	case sysctls.Name:
+		return sysctls.New(), nil
 	}
 
 	return nil, fmt.Errorf("unknown auditor %s: %w", name, ErrUnknownAuditor)

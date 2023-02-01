@@ -117,6 +117,11 @@ $ kubeaudit all -f "internal/test/fixtures/all_resources/deployment-apps-v1.yml"
 
 -- [error] SeccompProfileMissing
    Message: Pod Seccomp profile is missing. Seccomp profile should be added to the pod SecurityContext.
+
+-- [error] UnsafeSysctlsUsed
+   Message: Unsafe Sysctls are used. Please check the Kubernetes documentation (https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/#enabling-unsafe-sysctls) for safe Sysctls
+   Metadata:
+      Sysctls: net.core.somaxconn,kernel.msgmax
 ```
 
 ### Example with Kubeaudit Config
@@ -138,7 +143,7 @@ auditors:
 The config can be passed to the `all` command using the `-k/--kconfig` flag:
 
 ```
-$ kubeaudit all -k "config.yaml" -f "auditors/all/fixtures/audit_all_v1.yml"
+kubeaudit all -k "config.yaml" -f "auditors/all/fixtures/audit_all_v1.yml"
 ```
 
 ### Example with Flags
